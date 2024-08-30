@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  app:
+    container_name: 'flowydynamic.app'
+    build: .
+    env_file:
+      - .env
+    ports:
+      - "${NODE_PORT}:${NODE_PORT}"
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - JWT_EXPIRES_IN=${JWT_EXPIRES_IN}
+    volumes:
+      - .:/usr/src/app
+      - logs:/usr/src/app/logs
+      - ./node_modules:/usr/src/app/node_modules
+    depends_on:
+      - db
+  db:
+    container_name: 'flowydynamic.db'
+    image: postgres:15
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_DB=flowy_dynamic
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    ports:
+      - "5432:${DB_PORT}"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+  logs:
