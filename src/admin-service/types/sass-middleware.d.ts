@@ -12,6 +12,7 @@ declare module 'sass-middleware' {
         indentedSyntax?: boolean;
         response?: boolean;
         error?: (error: Error) => void;
+        outputStyle?: 'nested' | 'expanded' | 'compact' | 'compressed';
     }
 
     function sassMiddleware(options: SassMiddlewareOptions): RequestHandler;
